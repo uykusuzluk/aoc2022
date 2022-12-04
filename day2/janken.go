@@ -10,7 +10,7 @@ func RoundPoints(opp, us string) int {
 		log.Fatalln("unknown signs: " + opp + " " + oppShape.String() + " - " + us + " " + usShape.String())
 	}
 
-	return shapePts(usShape) + outcomePts(oppShape, usShape)
+	return usShape.Points() + outcomePts(oppShape, usShape)
 }
 
 // X - Lose
@@ -19,65 +19,13 @@ func RoundPoints(opp, us string) int {
 func RequiredShape(opp, result string) string {
 	switch result {
 	case "X":
-		return shapeToStrUs(shapeToLoseAgainst(strToShape(opp)))
+		return strToShape(opp).shapeToLoseAgainst().shapeToStrUs()
 	case "Y":
 		return opp
 	case "Z":
-		return shapeToStrUs(shapeToWinAgainst(strToShape(opp)))
+		return strToShape(opp).shapeToWinAgainst().shapeToStrUs()
 	default:
 		return ""
-	}
-}
-
-func shapeToWinAgainst(s Shape) Shape {
-	switch s {
-	case Rock:
-		return Paper
-	case Paper:
-		return Scissors
-	case Scissors:
-		return Rock
-	default:
-		return Invalid
-	}
-}
-
-func shapeToLoseAgainst(s Shape) Shape {
-	switch s {
-	case Rock:
-		return Scissors
-	case Paper:
-		return Rock
-	case Scissors:
-		return Paper
-	default:
-		return Invalid
-	}
-}
-
-func shapeToStrUs(s Shape) string {
-	switch s {
-	case Rock:
-		return "X"
-	case Paper:
-		return "Y"
-	case Scissors:
-		return "Z"
-	default:
-		return ""
-	}
-}
-
-func shapePts(sign Shape) int {
-	switch sign {
-	case Rock:
-		return 1
-	case Paper:
-		return 2
-	case Scissors:
-		return 3
-	default:
-		return 0
 	}
 }
 
